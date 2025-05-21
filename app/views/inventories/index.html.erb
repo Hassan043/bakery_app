@@ -1,0 +1,25 @@
+<h1>Inventory Management</h1>
+
+<table class="w-full border-collapse">
+  <thead>
+    <tr class="border-b">
+      <th>Product</th><th>Stock</th><th>Threshold</th><th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @inventories.each do |inv| %>
+      <tr class="<%= 'bg-red-100' if inv.quantity <= inv.low_stock_threshold %>">
+        <td><%= inv.product.name %></td>
+        <td><%= inv.quantity %></td>
+        <td><%= inv.low_stock_threshold %></td>
+        <td>
+          <%= form_with model: inv, url: inventory_path(inv), method: :patch, class: "inline-form" do |f| %>
+            <%= f.number_field :quantity, value: inv.quantity, min: 0, class: "w-16" %>
+            <%= f.number_field :low_stock_threshold, value: inv.low_stock_threshold, min: 0, class: "w-16 ml-2" %>
+            <%= f.submit "Update", class: "ml-2 bg-blue-500 text-white px-2 rounded" %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

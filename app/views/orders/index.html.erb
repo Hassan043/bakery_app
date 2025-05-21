@@ -1,0 +1,24 @@
+<h1>Your Orders</h1>
+
+<% if @orders.empty? %>
+  <p>No orders yet.</p>
+<% else %>
+  <table class="w-full border-collapse">
+    <thead>
+      <tr class="border-b">
+        <th>ID</th><th>Status</th><th>Total</th><th>Placed At</th><th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @orders.each do |order| %>
+        <tr class="border-b">
+          <td><%= order.id %></td>
+          <td><%= order.status.humanize %></td>
+          <td><%= number_to_currency(order.total) %></td>
+          <td><%= order.created_at.strftime("%b %-d, %Y") %></td>
+          <td><%= link_to "View", order_path(order), class: "text-blue-500" %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

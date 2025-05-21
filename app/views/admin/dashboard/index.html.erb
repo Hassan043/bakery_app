@@ -1,0 +1,32 @@
+<h1>Admin Dashboard</h1>
+
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+  <div class="p-4 border rounded shadow">
+    <h2 class="font-bold">Total Sales</h2>
+    <p class="text-2xl"><%= number_to_currency(@total_sales) %></p>
+  </div>
+  <div class="p-4 border rounded shadow">
+    <h2 class="font-bold">Pending Orders</h2>
+    <p class="text-2xl"><%= @pending_orders %></p>
+  </div>
+  <div class="p-4 border rounded shadow">
+    <h2 class="font-bold">Low-Stock Items</h2>
+    <p class="text-2xl"><%= @low_stock_items.count %></p>
+  </div>
+</div>
+
+<h2>Low-Stock Details</h2>
+<table class="w-full border-collapse">
+  <thead>
+    <tr class="border-b"><th>Product</th><th>Stock</th><th>Threshold</th></tr>
+  </thead>
+  <tbody>
+    <% @low_stock_items.each do |inv| %>
+      <tr class="border-b">
+        <td><%= inv.product.name %></td>
+        <td><%= inv.quantity %></td>
+        <td><%= inv.low_stock_threshold %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

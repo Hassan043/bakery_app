@@ -1,16 +1,52 @@
-<p style="color: green"><%= notice %></p>
-
-<% content_for :title, "Products" %>
-
 <h1>Products</h1>
 
-<div id="products">
+<%= form_with url: products_path, method: :get, local: true, class: "mb-4 flex space-x-2" do |f| %>
+  <%= f.text_field    :q,            value: params[:q],            placeholder: "Search by name", class: "border p-2 rounded" %>
+  <%= f.select        :category_id, options_for_select(@categories.pluck(:name, :id), params[:category_id]), include_blank: "All Categories", class: "border p-2 rounded" %>
+  <%= f.submit "Filter", class: "bg-blue-500 text-white px-4 rounded" %>
+<% end %>
+
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
   <% @products.each do |product| %>
-    <%= render product %>
-    <p>
-      <%= link_to "Show this product", product %>
-    </p>
+    <div class="border rounded p-4 shadow">
+      <% if product.images.attached? %>
+        <%= image_tag product.images.first.variant(resize_to_limit: [200,200]), class: "mb-2" %>
+      <% end %>
+      <h2 class="font-bold"><%= link_to product.name, product %></h2>
+      <p class="text-gray-600"><%= number_to_currency(product.price) %></p>
+      <p class="text-sm"><%= truncate(product.description, length: 80) %></p>
+    </div>
   <% end %>
 </div>
 
-<%= link_to "New product", new_product_path %>
+<div class="mt-6">
+  <%= paginate @products %>
+</div>
+<h2 class="text-3xl font-semibold mb-6">Our Fresh Bakes</h2>
+
+<%= form_with url: products_path, method: :get, local: true, class: "flex flex-wrap gap-2 mb-8" do |f| %>
+  <%= f.text_field :q, value: params[:q], placeholder: "Search…", class: "flex-1 border rounded px-3 py-2" %>
+  <%= f.select :category_id, options_for_select(@categories.pluck(:name, :id), params[:category_id]),
+               { include_blank: "All Categories" }, class: "border rounded px-3 py-2" %>
+  <%= f.submit "Filter", class: "bg-pink-500 hover:bg-pink-600 text-white px-4 rounded" %>
+<% end %>
+
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+  <% @products.each do |product| %>
+    <div class="bg-white rounded-lg shadow hover:shadow-lg transition p-4 flex flex-col">
+      <% if product.images.attached? %>
+        <%= image_tag product.images.first.variant(resize_to_limit: [300, 200]), class: "rounded mb-4 object-cover h-40 w-full" %>
+      <% end %>
+      <h3 class="text-xl font-bold mb-1"><%= link_to product.name, product, class: "hover:text-pink-600" %></h3>
+      <p class="text-gray-600 mb-2"><%= truncate(product.description, length: 60) %></p>
+      <div class="mt-auto flex items-center justify-between">
+        <span class="text-lg font-semibold text-pink-600"><%= number_to_currency(product.price) %></span>
+        <%= link_to "View", product, class: "text-sm text-white bg-pink-500 hover:bg-pink-600 px-3 py-1 rounded" %>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<div class="mt-10 flex justify-center">
+  <%= paginate @products%>
+</div>
