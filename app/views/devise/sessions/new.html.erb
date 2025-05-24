@@ -1,0 +1,37 @@
+<div class="min-h-screen flex items-center justify-center bg-gray-100 px-4">
+  <div class="max-w-md w-full bg-white p-6 rounded shadow">
+    <h2 class="text-2xl font-bold text-center text-pink-600 mb-6">Login to Your Bakery Account</h2>
+
+    <%= form_with(scope: resource_name, url: session_path(resource_name), class: "space-y-4") do |f| %>
+      <div>
+        <%= f.label :email, class: "block font-medium" %>
+        <%= f.email_field :email, autofocus: true, required: true,
+            class: "w-full border rounded px-3 py-2 mt-1" %>
+      </div>
+
+      <div>
+        <%= f.label :password, class: "block font-medium" %>
+        <%= f.password_field :password, required: true,
+            class: "w-full border rounded px-3 py-2 mt-1" %>
+      </div>
+
+      <div class="flex justify-between items-center">
+        <div>
+          <%= f.check_box :remember_me %>
+          <%= f.label :remember_me, class: "text-sm" %>
+        </div>
+        <%= link_to "Forgot password?", new_password_path(resource_name),
+            class: "text-sm text-pink-600 hover:underline" %>
+      </div>
+
+      <div>
+        <%= f.submit "Log In", class: "w-full bg-pink-500 hover:bg-pink-600 text-white py-2 rounded" %>
+      </div>
+    <% end %>
+
+    <p class="text-center text-sm mt-4">
+      Don't have an account?
+      <%= link_to "Sign up", new_user_registration_path, class: "text-pink-600 hover:underline" %>
+    </p>
+  </div>
+</div>
