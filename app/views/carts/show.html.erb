@@ -1,40 +1,131 @@
-<h1>Your Cart</h1>
+<div class="max-w-4xl mx-auto">
+  <h1 class="text-3xl font-bold mb-8">Your Shopping Cart</h1>
 
-<% if @cart.empty? %>
-  <p>Your cart is empty.</p>
-<% else %>
-  <table class="w-full border-collapse">
-    <thead>
-      <tr class="border-b">
-        <th>Product</th><th>Qty</th><th>Price</th><th>Total</th><th></th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @cart.each do |product_id, qty| %>
-        <% product = Product.find(product_id) %>
-        <tr class="border-b">
-          <td><%= link_to product.name, product %></td>
-          <td>
-            <%= qty %>
-            <%= link_to "+", add_to_cart_path(product), method: :post, class: "ml-2" %>
-            <%= link_to "–", remove_from_cart_path(product), method: :delete, class: "ml-1" %>
-          </td>
-          <td><%= number_to_currency(product.price) %></td>
-          <td><%= number_to_currency(product.price * qty) %></td>
-          <td><%= link_to "Remove", remove_from_cart_path(product), method: :delete, class: "text-red-500" %></td>
-        </tr>
+  <% if @cart.empty? %>
+    <div class="text-center py-16">
+      <svg class="w-24 h-24 mx-auto text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+      </svg>
+      <p class="text-xl text-gray-500 mb-4">Your cart is empty</p>
+      <%= link_to "Continue Shopping", products_path, class: "bg-pink-500 hover:bg-pink-600 text-white font-medium py-3 px-6 rounded-lg transition duration-200" %>
+    </div>
+  <% else %>
+    <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+      <div class="px-6 py-4 bg-gray-50 border-b">
+        <h2 class="text-lg font-semibold">Cart Items</h2>
+      </div>
+      
+      <div class="divide-y divide-gray-200">        <% @cart.each do |product_id, qty| %>
+          <% product = Product.find(product_id.to_i) %>
+          <div class="p-6 flex items-center space-x-4">
+            <!-- Product Image -->
+            <div class="flex-shrink-0">
+              <% if product.has_image? %>
+                <%= image_tag product.image_path, class: "h-20 w-20 object-cover rounded-lg", alt: product.name %>
+              <% else %>
+                <div class="h-20 w-20 bg-gray-200 rounded-lg flex items-center justify-center">
+                  <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                  </svg>
+                </div>
+              <% end %>
+            </div>
+            
+            <!-- Product Details -->
+            <div class="flex-1 min-w-0">
+              <h3 class="text-lg font-semibold text-gray-900">
+                <%= link_to product.name, product, class: "hover:text-pink-600 transition duration-200" %>
+              </h3>
+              <p class="text-sm text-gray-500 mt-1"><%= product.category.name %></p>
+              <p class="text-lg font-bold text-pink-600 mt-2"><%= number_to_currency(product.price) %></p>
+            </div>              <!-- Quantity Controls -->
+            <div class="flex items-center space-x-3">
+              <div class="flex items-center space-x-1">
+                <!-- Decrease Button -->
+                <%= link_to decrease_cart_item_path(product), 
+                      data: { "turbo-method": "post" },
+                      class: "bg-gray-200 hover:bg-gray-300 text-gray-700 w-8 h-8 rounded-full flex items-center justify-center transition duration-200",
+                      title: "Decrease quantity" do %>
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path>
+                  </svg>
+                <% end %>
+                
+                <!-- Quantity Display -->
+                <span class="w-12 text-center font-medium text-lg px-2 py-1 border border-gray-300 rounded">
+                  <%= qty %>
+                </span>
+                
+                <!-- Increase Button -->
+                <%= link_to increase_cart_item_path(product), 
+                      data: { "turbo-method": "post" },
+                      class: "bg-gray-200 hover:bg-gray-300 text-gray-700 w-8 h-8 rounded-full flex items-center justify-center transition duration-200",
+                      title: "Increase quantity" do %>
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                  </svg>
+                <% end %>
+              </div>
+            </div>
+            
+            <!-- Item Total -->
+            <div class="text-right">
+              <p class="text-lg font-bold text-gray-900"><%= number_to_currency(product.price * qty) %></p>
+              <p class="text-xs text-gray-500"><%= qty %> × <%= number_to_currency(product.price) %></p>
+            </div>              <!-- Remove Button -->
+            <div class="flex items-center">
+              <%= link_to remove_from_cart_path(product), 
+                    data: { 
+                      "turbo-method": "delete",
+                      confirm: "Remove #{product.name} from cart?" 
+                    },
+                    class: "bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded text-sm transition duration-200 flex items-center space-x-1",
+                    title: "Remove from cart" do %>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                </svg>
+                <span>Remove</span>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+      
+      <!-- Cart Summary -->
+      <div class="px-6 py-4 bg-gray-50 border-t">
+        <div class="flex justify-between items-center">
+          <div>
+            <p class="text-sm text-gray-600">Total Items: <%= @cart.values.sum %></p>
+            <p class="text-sm text-gray-600">Unique Products: <%= @cart.keys.count %></p>
+          </div>
+          <div class="text-right">
+            <p class="text-sm text-gray-600">Grand Total:</p>            <p class="text-2xl font-bold text-gray-900">
+              <%= number_to_currency(@cart.sum { |id, qty| Product.find(id.to_i).price * qty }) %>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>    <!-- Action Buttons -->
+    <div class="mt-8 flex justify-between items-center">
+      <div class="flex space-x-4">
+        <%= link_to "Continue Shopping", products_path, class: "bg-gray-500 hover:bg-gray-600 text-white font-medium py-3 px-6 rounded-lg transition duration-200" %>        <%= link_to "Clear Cart", clear_cart_path, 
+              data: { 
+                "turbo-method": "delete",
+                confirm: "Are you sure you want to clear your entire cart?" 
+              },
+              class: "bg-red-500 hover:bg-red-600 text-white font-medium py-3 px-6 rounded-lg transition duration-200" %>
+      </div>
+      
+      <% if user_signed_in? %>
+        <%= form_with url: orders_path, method: :post, class: "inline" do %>
+          <%= submit_tag "Proceed to Checkout", class: "bg-green-500 hover:bg-green-600 text-white font-medium py-3 px-8 rounded-lg transition duration-200 shadow-md hover:shadow-lg" %>
+        <% end %>
+      <% else %>
+        <div class="text-right">
+          <p class="text-sm text-gray-600 mb-2">Please login to place an order</p>
+          <%= link_to "Login to Checkout", new_user_session_path, class: "bg-green-500 hover:bg-green-600 text-white font-medium py-3 px-8 rounded-lg transition duration-200 shadow-md hover:shadow-lg" %>
+        </div>
       <% end %>
-    </tbody>
-    <tfoot>
-      <tr>
-        <th colspan="3" class="text-right">Grand Total:</th>
-        <th><%= number_to_currency(@cart.sum { |id,qty| Product.find(id).price * qty }) %></th>
-        <th></th>
-      </tr>
-    </tfoot>
-  </table>
-
-  <%= form_with url: orders_path, method: :post do %>
-    <%= submit_tag "Place Order", class: "mt-4 bg-green-500 text-white px-4 py-2 rounded" %>
+    </div>
   <% end %>
-<% end %>
+</div>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_11_212716) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_25_151543) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -46,6 +46,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_11_212716) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "description"
   end
 
   create_table "inventories", force: :cascade do |t|
@@ -84,6 +85,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_11_212716) do
     t.bigint "category_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "availability"
+    t.string "image_path"
+    t.integer "quantity"
     t.index ["category_id"], name: "index_products_on_category_id"
   end
 
@@ -107,6 +111,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_11_212716) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "role", default: 2
+    t.string "name"
+    t.boolean "admin"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

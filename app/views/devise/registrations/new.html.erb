@@ -4,8 +4,14 @@
 
     <%= form_with(model: resource, url: registration_path(resource_name), class: "space-y-4") do |f| %>
       <div>
+        <%= f.label :name, class: "block font-medium" %>
+        <%= f.text_field :name, autofocus: true, required: true,
+            class: "w-full border rounded px-3 py-2 mt-1" %>
+      </div>
+
+      <div>
         <%= f.label :email, class: "block font-medium" %>
-        <%= f.email_field :email, autofocus: true, required: true,
+        <%= f.email_field :email, required: true,
             class: "w-full border rounded px-3 py-2 mt-1" %>
       </div>
 

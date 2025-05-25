@@ -15,15 +15,26 @@
             <%= image_tag "/logo.png", alt: "Logo", class: "h-8 w-8" %>
             BakeryApp
           <% end %>
-        </h1>
-
-
-        <nav class="space-x-4">
-          <%= link_to "Products", products_path, class: "hover:text-[#6E260E]" %>
-          <%= link_to "Categories", categories_path, class: "hover:text-[#6E260E]" %>
-          <%= link_to "Cart (#{session[:cart]&.size || 0})", cart_path, class: "hover:text-[#6E260E]" %>
+        </h1>        <nav class="space-x-4">
+          <% if user_signed_in? && current_user.admin? %>
+            <!-- Admin Navigation -->
+            <%= link_to "Admin Dashboard", admin_root_path, class: "hover:text-[#6E260E] font-bold" %>
+          <% else %>
+            <!-- Regular User Navigation -->
+            <%= link_to "Products", products_path, class: "hover:text-[#6E260E]" %>
+            <%= link_to "Categories", categories_path, class: "hover:text-[#6E260E]" %>
+            <%= link_to "Cart (#{session[:cart]&.size || 0})", cart_path, class: "hover:text-[#6E260E]" %>
+          <% end %>
+          
           <% if user_signed_in? %>
-            <%= link_to current_user.email, customer_dashboard_path, class: "hover:text-[#6E260E]" %>
+            <% if current_user.admin? %>
+              <!-- Admin user display -->
+              <span class="text-[#6E260E] font-semibold">Admin</span>
+            <% elsif current_user.name.present? %>
+              <%= link_to current_user.name, customer_dashboard_path, class: "hover:text-[#6E260E]" %>
+            <% else %>
+              <%= link_to current_user.email, customer_dashboard_path, class: "hover:text-[#6E260E]" %>
+            <% end %>
             <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "hover:text-red-500 inline-block" %>
           <% else %>
             <%= link_to "Login / Sign Up", new_user_session_path, class: "hover:text-[#6E260E]" %>

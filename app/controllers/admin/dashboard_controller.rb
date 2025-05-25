@@ -1,9 +1,5 @@
-class Admin::DashboardController < ApplicationController
-  before_action -> { redirect_to root_path unless current_user.admin? }
-
-  def index
-    @total_sales     = Order.completed.sum(:total)
-    @pending_orders  = Order.pending.count
-    @low_stock_items = Inventory.where("quantity <= low_stock_threshold")
+class Admin::DashboardController < Admin::BaseController
+  def show
+    # Only show dashboard with two options: Add Product and View Users
   end
 end
