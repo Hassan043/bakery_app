@@ -1,8 +1,66 @@
+<style>
+  /* Categories Index Styling – Brown-Themed BakeryApp */
+
+  /* Container */
+  #categories {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  /* Each category card */
+  #categories > * {
+    background-color: #F8F4E9;    /* light cream */
+    border: 1px solid #D4B483;    /* light brown */
+    border-radius: 0.5rem;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(92,61,46,0.1);
+  }
+
+  /* Category title inside partial (e.g. h2 or h3) */
+  #categories h2,
+  #categories h3 {
+    color: #5C3D2E; /* dark brown */
+    margin-bottom: 0.5rem;
+  }
+
+  /* Show link styling */
+  #categories p a {
+    display: inline-block;
+    color: #6E260E;                   /* medium brown */
+    background-color: #E7D7C5;        /* medium cream */
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.375rem;
+    text-decoration: none;
+    transition: background-color 0.2s;
+  }
+  #categories p a:hover {
+    background-color: #D4B483;        /* light brown */
+  }
+
+  /* "New category" link at bottom */
+  a[href$="/categories/new"] {
+    display: inline-block;
+    margin-top: 1.5rem;
+    background-color: #F8F4E9;
+    color: #5C3D2E;
+    padding: 0.5rem 1rem;
+    border: 1px solid #D4B483;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    transition: background-color 0.2s;
+  }
+  a[href$="/categories/new"]:hover {
+    background-color: #E7D7C5;
+  }
+</style>
+
 <p style="color: green"><%= notice %></p>
 
 <% content_for :title, "Categories" %>
 
-<h1>Categories</h1>
+<h1 class="text-3xl font-bold text-5C3D2E mb-4">Categories</h1>
 
 <div id="categories">
   <% @categories.each do |category| %>
