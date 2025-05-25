@@ -1,42 +1,178 @@
-<!-- filepath: c:\Users\Haseeb Arif\Desktop\Ruby project\bakery_app\app\views\admin\products\edit.html.erb -->
-<div class="flex justify-between items-center mb-6">
-  <div>
-    <h1 class="text-2xl font-bold">Edit Product</h1>
-    <p class="text-gray-600">Update details for: <span class="font-medium"><%= @product.name %></span></p>
-  </div>
-  <% if @product.has_image? %>
-    <div class="flex-shrink-0">
-      <%= image_tag @product.image_path, class: "h-20 w-20 object-cover rounded-lg shadow-md border", alt: @product.name %>
+<style>
+  /* Admin Product Edit Styling - Brown-Themed BakeryApp */
+  
+  .admin-product-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+  }
+
+  .page-header {
+    background: linear-gradient(135deg, #F8F4E9, #E7D7C5);
+    padding: 2rem;
+    border-radius: 1rem;
+    border: 2px solid #D4B483;
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .header-content h1 {
+    color: #5C3D2E;
+    font-size: 2.25rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+
+  .header-content .subtitle {
+    color: #A78A7F;
+    font-size: 1.1rem;
+    font-weight: 500;
+  }
+
+  .header-content .product-name {
+    color: #5C3D2E;
+    font-weight: 700;
+  }
+
+  .current-image {
+    flex-shrink: 0;
+  }
+
+  .current-image img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 0.75rem;
+    border: 2px solid #D4B483;
+    box-shadow: 0 4px 12px rgba(92, 61, 46, 0.2);
+  }
+
+  .form-container {
+    background: linear-gradient(135deg, #FFFFFF, #F8F4E9);
+    border: 2px solid #D4B483;
+    border-radius: 1rem;
+    padding: 2rem;
+    box-shadow: 0 4px 12px rgba(92, 61, 46, 0.1);
+    margin-bottom: 2rem;
+  }
+
+  .navigation-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .nav-group {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .nav-btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: none;
+    cursor: pointer;
+  }
+
+  .nav-btn-primary {
+    background: linear-gradient(135deg, #D4B483, #A78A7F);
+    color: white;
+  }
+
+  .nav-btn-secondary {
+    background-color: #E7D7C5;
+    color: #5C3D2E;
+    border: 1px solid #D4B483;
+  }
+
+  .nav-btn-danger {
+    background-color: #4A90E2;
+    color: white;
+  }
+
+  .nav-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    text-decoration: none;
+  }
+
+  .nav-btn-primary:hover {
+    color: white;
+  }
+
+  .nav-btn-secondary:hover {
+    background-color: #D4B483;
+    color: white;
+  }
+
+  .nav-btn-danger:hover {
+    background-color: #357ABD;
+    color: white;
+  }
+
+  .nav-btn svg {
+    width: 18px;
+    height: 18px;
+  }
+</style>
+
+<div class="admin-product-container">
+  <div class="page-header">
+    <div class="header-content">
+      <h1>Edit Product</h1>
+      <p class="subtitle">Update details for: <span class="product-name"><%= @product.name %></span></p>
     </div>
-  <% end %>
-</div>
-
-<div class="bg-white shadow-md rounded-lg p-6">
-  <%= render 'form', product: @product %>
-</div>
-
-<div class="mt-6 flex justify-between">
-  <div class="flex space-x-4">
-    <%= link_to admin_products_path, class: "bg-gray-500 hover:bg-gray-600 text-white font-medium py-2 px-4 rounded-md transition duration-200" do %>
-      <svg class="w-4 h-4 mr-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
-      </svg>
-      Back to Products
-    <% end %>
-    <%= link_to admin_root_path, class: "text-gray-500 hover:text-gray-700 font-medium py-2 px-4 transition duration-200" do %>
-      Dashboard
+    <% if @product.has_image? %>
+      <div class="current-image">
+        <%= image_tag @product.image_path, alt: @product.name %>
+      </div>
     <% end %>
   </div>
-  <div>    <%= link_to admin_product_path(@product), 
-          data: { 
-            turbo_method: :delete, 
-            turbo_confirm: "Are you sure you want to delete '#{@product.name}'? This action cannot be undone." 
-          }, 
-          class: "bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-md transition duration-200" do %>
-      <svg class="w-4 h-4 mr-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-      </svg>
-      Delete Product
-    <% end %>
+
+  <div class="form-container">
+    <%= render 'form', product: @product %>
+  </div>
+
+  <div class="navigation-section">
+    <div class="nav-group">
+      <%= link_to admin_products_path, class: "nav-btn nav-btn-primary" do %>
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+        </svg>
+        Back to Products
+      <% end %>
+      <%= link_to admin_root_path, class: "nav-btn nav-btn-secondary" do %>
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"></path>
+        </svg>
+        Dashboard
+      <% end %>
+    </div>
+    <div class="nav-group">
+      <%= link_to admin_product_path(@product), 
+            data: { 
+              turbo_method: :delete, 
+              turbo_confirm: "Are you sure you want to delete '#{@product.name}'? This action cannot be undone." 
+            }, 
+            class: "nav-btn nav-btn-danger" do %>
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+        </svg>
+        Delete Product
+      <% end %>
+    </div>
   </div>
 </div>

@@ -1,9 +1,116 @@
-<!-- filepath: c:\Users\Haseeb Arif\Desktop\Ruby project\bakery_app\app\views\admin\products\new.html.erb -->
-<h1 class="text-2xl font-bold mb-6">New Product</h1>
+<style>
+  /* Admin Product New/Edit Styling - Brown-Themed BakeryApp */
+  
+  .admin-product-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+  }
 
-<%= render 'form', product: @product %>
+  .page-header {
+    background: linear-gradient(135deg, #F8F4E9, #E7D7C5);
+    padding: 2rem;
+    border-radius: 1rem;
+    border: 2px solid #D4B483;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
 
-<div class="mt-6 flex space-x-4">
-  <%= link_to 'View Products', admin_products_path, class: "text-blue-500 hover:text-blue-700" %>
-  <%= link_to 'Back to Dashboard', admin_root_path, class: "text-gray-500 hover:text-gray-700" %>
+  .page-header h1 {
+    color: #5C3D2E;
+    font-size: 2.25rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+
+  .page-header .subtitle {
+    color: #A78A7F;
+    font-size: 1.1rem;
+    font-weight: 500;
+  }
+
+  .form-container {
+    background: linear-gradient(135deg, #FFFFFF, #F8F4E9);
+    border: 2px solid #D4B483;
+    border-radius: 1rem;
+    padding: 2rem;
+    box-shadow: 0 4px 12px rgba(92, 61, 46, 0.1);
+    margin-bottom: 2rem;
+  }
+
+  .navigation-section {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .nav-btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .nav-btn-primary {
+    background: linear-gradient(135deg, #D4B483, #A78A7F);
+    color: white;
+  }
+
+  .nav-btn-secondary {
+    background-color: #E7D7C5;
+    color: #5C3D2E;
+    border: 1px solid #D4B483;
+  }
+
+  .nav-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    text-decoration: none;
+  }
+
+  .nav-btn-primary:hover {
+    color: white;
+  }
+
+  .nav-btn-secondary:hover {
+    background-color: #D4B483;
+    color: white;
+  }
+
+  .nav-btn svg {
+    width: 18px;
+    height: 18px;
+  }
+</style>
+
+<div class="admin-product-container">
+  <div class="page-header">
+    <h1>Add New Product</h1>
+    <p class="subtitle">Create a new delicious product for your bakery</p>
+  </div>
+
+  <div class="form-container">
+    <%= render 'form', product: @product %>
+  </div>
+
+  <div class="navigation-section">
+    <%= link_to admin_products_path, class: "nav-btn nav-btn-primary" do %>
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+      </svg>
+      View All Products
+    <% end %>
+    <%= link_to admin_root_path, class: "nav-btn nav-btn-secondary" do %>
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"></path>
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m15 13-3 3-3-3"></path>
+      </svg>
+      Back to Dashboard
+    <% end %>
+  </div>
 </div>
