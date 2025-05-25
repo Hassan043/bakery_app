@@ -1,3 +1,87 @@
+<style>
+  /* Product Grid & Card Styling – Brown-Themed BakeryApp */
+
+  /* Ensure 3 cards per row */
+  .grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 1rem !important;
+  }
+
+  /* Card container layout */
+  .grid > div {
+    background-color: #FFFFFF;
+    border: 1px solid #D4B483;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+  }
+
+  /* Equal image sizing */
+  .grid > div img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 0.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  /* Title spacing */
+  .grid > div h2,
+  .grid > div h3 {
+    color: #5C3D2E;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    min-height: 2.5rem; /* consistent height */
+  }
+
+  /* Description grows to fill space */
+  .grid > div p.text-gray-600,
+  .grid > div p.text-gray-600.mb-2 {
+    flex-grow: 1;
+    color: #A78A7F;
+    margin-bottom: 0.75rem;
+  }
+
+  /* Price and link area */
+  .grid > div .mt-auto {
+    margin-top: auto;
+  }
+
+  .grid > div .text-lg {
+    color: #6E260E;
+    font-weight: 700;
+  }
+
+  .grid > div a.text-sm {
+    color: #A78A7F;
+    transition: color 0.2s;
+  }
+  .grid > div a.text-sm:hover {
+    color: #5C3D2E;
+  }
+
+  /* Add to Cart form controls */
+  .grid > div .flex.items-center.space-x-2 input[type="number"] {
+    border: 1px solid #D4B483;
+    border-radius: 0.25rem;
+  }
+  .grid > div .flex.items-center.space-x-2 input[type="number"]:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(92, 61, 46, 0.2);
+  }
+  .grid > div .flex.items-center.space-x-2 input[type="submit"] {
+    background-color: #6E260E;
+    color: white;
+    transition: background-color 0.2s;
+  }
+  .grid > div .flex.items-center.space-x-2 input[type="submit"]:hover {
+    background-color: #5C3D2E;
+  }
+</style>
+
 <h1>Products</h1>
 
 <%= form_with url: products_path, method: :get, local: true, class: "mb-4 flex space-x-2" do |f| %>
@@ -6,18 +90,20 @@
   <%= f.submit "Filter", class: "bg-blue-500 text-white px-4 rounded" %>
 <% end %>
 
-<div class="grid grid-cols-1 md:grid-cols-3 gap-6">  <% @products.each do |product| %>
-    <div class="border rounded p-4 shadow">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+  <% @products.each do |product| %>
+    <div>
       <% if product.has_image? %>
-        <%= image_tag product.image_path, class: "mb-2 w-full h-48 object-cover rounded", alt: product.name %>
+        <%= image_tag product.image_path, alt: product.name %>
       <% end %>
       <h2 class="font-bold"><%= link_to product.name, product %></h2>
       <p class="text-gray-600"><%= number_to_currency(product.price) %></p>
-      <p class="text-sm"><%= truncate(product.description, length: 80) %></p>      <!-- Add to Cart Form -->
+      <p class="text-gray-600 mb-2"><%= truncate(product.description, length: 80) %></p>
+      <!-- Add to Cart Form -->
       <%= form_with url: add_to_cart_path(product), method: :post, local: true, class: "mt-4" do |f| %>
         <div class="flex items-center space-x-2">
-          <%= f.number_field :quantity, value: 1, min: 1, max: 10, class: "w-16 px-2 py-1 border border-gray-300 rounded text-center focus:ring-2 focus:ring-pink-500" %>
-          <%= f.submit "Add to Cart", class: "bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded font-medium transition duration-200 flex-1" %>
+          <%= f.number_field :quantity, value: 1, min: 1, max: 10, class: "w-16 px-2 py-1 text-center focus:ring-2 focus:ring-[#6E260E]" %>
+          <%= f.submit "Add to Cart", class: "bg-[#6E260E] hover:bg-[#5C3D2E] text-white px-4 py-2 rounded font-medium transition duration-200 flex-1" %>
         </div>
       <% end %>
     </div>
@@ -26,39 +112,4 @@
 
 <div class="mt-6">
   <%= paginate @products %>
-</div>
-<h2 class="text-3xl font-semibold mb-6">Our Fresh Bakes</h2>
-
-<%= form_with url: products_path, method: :get, local: true, class: "flex flex-wrap gap-2 mb-8" do |f| %>
-  <%= f.text_field :q, value: params[:q], placeholder: "Search…", class: "flex-1 border rounded px-3 py-2" %>
-  <%= f.select :category_id, options_for_select(@categories.pluck(:name, :id), params[:category_id]),
-               { include_blank: "All Categories" }, class: "border rounded px-3 py-2" %>
-  <%= f.submit "Filter", class: "bg-pink-500 hover:bg-pink-600 text-white px-4 rounded" %>
-<% end %>
-
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">  <% @products.each do |product| %>
-    <div class="bg-white rounded-lg shadow hover:shadow-lg transition p-4 flex flex-col">
-      <% if product.has_image? %>
-        <%= image_tag product.image_path, class: "rounded mb-4 object-cover h-40 w-full", alt: product.name %>
-      <% end %>
-      <h3 class="text-xl font-bold mb-1"><%= link_to product.name, product, class: "hover:text-pink-600" %></h3>
-      <p class="text-gray-600 mb-2"><%= truncate(product.description, length: 60) %></p>
-      <div class="mt-auto">
-        <div class="flex items-center justify-between mb-3">
-          <span class="text-lg font-semibold text-pink-600"><%= number_to_currency(product.price) %></span>
-          <%= link_to "View Details", product, class: "text-sm text-gray-500 hover:text-pink-600" %>
-        </div>        <!-- Add to Cart Form -->
-        <%= form_with url: add_to_cart_path(product), method: :post, local: true, class: "mb-2" do |f| %>
-          <div class="flex items-center space-x-2">
-            <%= f.number_field :quantity, value: 1, min: 1, max: 10, class: "w-16 px-2 py-1 border border-gray-300 rounded text-center focus:ring-2 focus:ring-pink-500" %>
-            <%= f.submit "Add to Cart", class: "bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded font-medium transition duration-200 flex-1" %>
-          </div>
-        <% end %>
-      </div>
-    </div>
-  <% end %>
-</div>
-
-<div class="mt-10 flex justify-center">
-  <%= paginate @products%>
 </div>

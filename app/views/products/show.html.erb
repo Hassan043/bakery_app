@@ -1,77 +1,244 @@
-<% if notice %>
-  <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
-    <%= notice %>
-  </div>
-<% end %>
+<style>
+  /* Product Show Page Styling – Brown-Themed BakeryApp */
 
-<div class="max-w-4xl mx-auto">
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+  /* Container */
+  .product-show-container {
+    max-width: 64rem; /* max-w-4xl */
+    margin: 0 auto;
+    padding: 2rem 1rem;
+  }
+
+  /* Notice banner */
+  .product-show-container > div.bg-green-100 {
+    background-color: #ECFDF5;
+    border-color: #A7F3D0;
+    color: #065F46;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  /* Grid */
+  .product-show-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  @media (min-width: 768px) {
+    .product-show-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  /* Image container */
+  .product-show-image img,
+  .product-show-image .placeholder {
+    width: 100%;
+    height: 24rem; /* h-96 */
+    object-fit: cover;
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+  }
+
+  /* Headings and text */
+  .product-show-details h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #5C3D2E;
+    margin-bottom: 0.5rem;
+  }
+  .product-show-details p.category {
+    color: #A78A7F;
+    margin-bottom: 1rem;
+    font-size: 0.875rem;
+  }
+  .product-show-details p.category a {
+    color: #6E260E;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .product-show-details p.category a:hover {
+    color: #5C3D2E;
+  }
+  .product-show-details p.price {
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: #6E260E;
+    margin-bottom: 1.5rem;
+  }
+  .product-show-details h3 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #5C3D2E;
+    margin-bottom: 0.75rem;
+  }
+  .product-show-details p.description {
+    color: #4B5563;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+  }
+
+  /* Add to Cart box */
+  .add-to-cart-box {
+    background-color: #F8F4E9;
+    border: 1px solid #D4B483;
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+  }
+  .add-to-cart-box h3 {
+    margin-bottom: 1rem;
+  }
+  .add-to-cart-box label {
+    display: block;
+    font-weight: 500;
+    color: #5C3D2E;
+    margin-bottom: 0.5rem;
+  }
+  .add-to-cart-box input[type="number"] {
+    width: 5rem;
+    padding: 0.5rem;
+    border: 1px solid #D4B483;
+    border-radius: 0.375rem;
+    text-align: center;
+  }
+  .add-to-cart-box input[type="number"]:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(92,61,46,0.2);
+  }
+  .add-to-cart-box .flex.space-x-4 a,
+  .add-to-cart-box .flex.space-x-4 input[type="submit"] {
+    flex: 1;
+    text-align: center;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    transition: background-color 0.2s, color 0.2s;
+  }
+  .add-to-cart-box input[type="submit"] {
+    background-color: #6E260E;
+    color: #FFF;
+    border: none;
+  }
+  .add-to-cart-box input[type="submit"]:hover {
+    background-color: #5C3D2E;
+  }
+  .add-to-cart-box a {
+    background-color: #A78A7F;
+    color: #FFF;
+    text-decoration: none;
+  }
+  .add-to-cart-box a:hover {
+    background-color: #8C6A63;
+  }
+
+  /* Navigation links */
+  .product-navigation {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #D4B483;
+    padding-top: 2rem;
+  }
+  .product-navigation a {
+    display: flex;
+    align-items: center;
+    color: #5C3D2E;
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .product-navigation a:hover {
+    color: #6E260E;
+  }
+  .product-navigation svg {
+    margin-right: 0.5rem;
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+  .product-navigation .admin-links a,
+  .product-navigation .admin-links form {
+    margin-left: 1rem;
+    color: #6E260E;
+  }
+  .product-navigation .admin-links a:hover,
+  .product-navigation .admin-links button:hover {
+    color: #5C3D2E;
+  }
+</style>
+
+<div class="product-show-container">
+  <% if notice %>
+    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+      <%= notice %>
+    </div>
+  <% end %>
+
+  <div class="product-show-grid">
     <!-- Product Image -->
-    <div>
+    <div class="product-show-image">
       <% if @product.has_image? %>
-        <%= image_tag @product.image_path, class: "w-full h-96 object-cover rounded-lg shadow-lg", alt: @product.name %>
+        <%= image_tag @product.image_path, alt: @product.name %>
       <% else %>
-        <div class="w-full h-96 bg-gray-200 rounded-lg flex items-center justify-center">
+        <div class="placeholder bg-gray-200 flex items-center justify-center">
           <svg class="w-24 h-24 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2
+                  2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0
+                  00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
           </svg>
         </div>
       <% end %>
     </div>
-    
+
     <!-- Product Details -->
-    <div class="space-y-6">
-      <div>
-        <h1 class="text-3xl font-bold text-gray-900 mb-2"><%= @product.name %></h1>
-        <p class="text-sm text-gray-500 mb-4">
-          Category: <%= link_to @product.category.name, category_path(@product.category), class: "text-pink-600 hover:text-pink-700" %>
-        </p>
-        <p class="text-4xl font-bold text-pink-600 mb-6"><%= number_to_currency(@product.price) %></p>
-      </div>
-      
-      <div>
-        <h3 class="text-lg font-semibold text-gray-900 mb-2">Description</h3>
-        <p class="text-gray-600 leading-relaxed"><%= @product.description %></p>
-      </div>
-      
+    <div class="product-show-details">
+      <h1><%= @product.name %></h1>
+      <p class="category">
+        Category:
+        <%= link_to @product.category.name, category_path(@product.category) %>
+      </p>
+      <p class="price"><%= number_to_currency(@product.price) %></p>
+
+      <h3>Description</h3>
+      <p class="description"><%= @product.description %></p>
+
       <!-- Add to Cart Section -->
-      <div class="bg-gray-50 rounded-lg p-6">
-        <h3 class="text-lg font-semibold text-gray-900 mb-4">Add to Cart</h3>
+      <div class="add-to-cart-box">
+        <h3>Add to Cart</h3>
         <%= form_with url: add_to_cart_path(@product), method: :post, local: true, class: "space-y-4" do |f| %>
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Quantity</label>
+            <label>Quantity</label>
             <div class="flex items-center space-x-4">
-              <%= f.number_field :quantity, value: 1, min: 1, max: 20, 
-                    class: "w-20 px-3 py-2 border border-gray-300 rounded-md text-center focus:ring-2 focus:ring-pink-500 focus:border-transparent" %>
-              <span class="text-sm text-gray-500">Available: <%= @product.quantity || 'In Stock' %></span>
+              <%= f.number_field :quantity, value: 1, min: 1, max: 20 %>
+              <span class="text-sm text-gray-500">
+                Available: <%= @product.quantity || 'In Stock' %>
+              </span>
             </div>
           </div>
-          
           <div class="flex space-x-4">
-            <%= f.submit "Add to Cart", class: "bg-pink-500 hover:bg-pink-600 text-white px-8 py-3 rounded-lg font-medium transition duration-200 shadow-md hover:shadow-lg flex-1" %>
-            <%= link_to "View Cart", cart_path, class: "bg-gray-500 hover:bg-gray-600 text-white px-8 py-3 rounded-lg font-medium transition duration-200 text-center" %>
+            <%= f.submit "Add to Cart" %>
+            <%= link_to "View Cart", cart_path %>
           </div>
         <% end %>
       </div>
     </div>
   </div>
-  
+
   <!-- Navigation Links -->
-  <div class="border-t pt-8 flex justify-between items-center">
-    <%= link_to products_path, class: "flex items-center text-gray-600 hover:text-pink-600 transition duration-200" do %>
-      <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+  <div class="product-navigation">
+    <%= link_to products_path do %>
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
       </svg>
       Back to Products
     <% end %>
-    
+
     <% if user_signed_in? && (current_user.admin? || current_user.staff?) %>
-      <div class="flex space-x-4">
-        <%= link_to "Edit Product", edit_product_path(@product), class: "text-blue-600 hover:text-blue-700" %>
-        <span class="text-gray-300">|</span>
-        <%= button_to "Delete Product", @product, method: :delete, 
-              data: { confirm: "Are you sure?" },
-              class: "text-red-600 hover:text-red-700 bg-transparent border-none cursor-pointer" %>
+      <div class="admin-links">
+        <%= link_to "Edit Product", edit_product_path(@product) %>
+        <%= button_to "Delete Product", @product, method: :delete, data: { confirm: "Are you sure?" } %>
       </div>
     <% end %>
   </div>
