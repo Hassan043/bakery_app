@@ -1,115 +1,433 @@
 <style>
-  /* Product Grid & Card Styling – Brown-Themed BakeryApp */
-
-  /* Ensure 3 cards per row */
-  .grid {
-    display: grid !important;
-    grid-template-columns: repeat(3, 1fr) !important;
-    gap: 1rem !important;
+  /* Products Index Page Styling – Professional Brown-Themed BakeryApp */
+  
+  .products-home-container {
+    width: 100%;
+    max-width: none;
+    margin: 0 auto;
+    padding: 1.5rem;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #F8F4E9 0%, #FFFFFF 100%);
   }
 
-  /* Card container layout */
-  .grid > div {
-    background-color: #FFFFFF;
-    border: 1px solid #D4B483;
+  .page-hero {
+    text-align: center;
+    margin-bottom: 3rem;
+    background: linear-gradient(135deg, #F8F4E9, #E7D7C5);
+    padding: 3rem 2rem;
+    border-radius: 1rem;
+    border: 2px solid #D4B483;
+    box-shadow: 0 4px 12px rgba(92, 61, 46, 0.1);
+  }
+
+  .hero-title {
+    color: #5C3D2E;
+    font-size: 3rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 2px 4px rgba(92, 61, 46, 0.1);
+  }
+
+  .hero-subtitle {
+    color: #A78A7F;
+    font-size: 1.25rem;
+    font-weight: 500;
+    margin-bottom: 2rem;
+  }
+
+  .search-filter-section {
+    background: linear-gradient(135deg, #FFFFFF, #F8F4E9);
+    padding: 2rem;
+    border-radius: 1rem;
+    border: 2px solid #D4B483;
+    box-shadow: 0 4px 12px rgba(92, 61, 46, 0.1);
+    margin-bottom: 3rem;
+  }
+
+  .filter-form {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .filter-input {
+    padding: 0.75rem 1rem;
+    border: 2px solid #E7D7C5;
     border-radius: 0.5rem;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    background-color: #FFFFFF;
+    color: #5C3D2E;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    min-width: 200px;
+  }
+
+  .filter-input:focus {
+    outline: none;
+    border-color: #A78A7F;
+    box-shadow: 0 0 0 3px rgba(167, 138, 127, 0.1);
+    background-color: #F8F4E9;
+  }
+
+  .filter-input::placeholder {
+    color: #A78A7F;
+  }
+
+  .filter-select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 0.5rem center;
+    background-repeat: no-repeat;
+    background-size: 1.5em 1.5em;
+    padding-right: 2.5rem;
+  }
+
+  .filter-btn {
+    background: linear-gradient(135deg, #5C3D2E, #4A2F20);
+    color: white;
+    padding: 0.75rem 2rem;
+    border-radius: 0.5rem;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .filter-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(92, 61, 46, 0.3);
+  }
+
+  .products-grid {
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: repeat(1, 1fr);
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  @media (min-width: 768px) {
+    .products-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .products-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .products-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  .product-card {
+    background: linear-gradient(135deg, #FFFFFF, #F8F4E9);
+    border: 2px solid #D4B483;
+    border-radius: 1rem;
+    box-shadow: 0 4px 12px rgba(92, 61, 46, 0.1);
+    overflow: hidden;
+    transition: all 0.3s ease;
     display: flex;
     flex-direction: column;
-    padding: 1rem;
+    position: relative;
   }
 
-  /* Equal image sizing */
-  .grid > div img {
+  .product-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #5C3D2E, #A78A7F);
+    transition: height 0.3s ease;
+  }
+
+  .product-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 24px rgba(92, 61, 46, 0.2);
+    border-color: #A78A7F;
+  }
+
+  .product-card:hover::before {
+    height: 8px;
+  }
+
+  .product-image-container {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .product-image {
     width: 100%;
-    height: 200px;
+    height: 250px;
     object-fit: cover;
-    border-radius: 0.5rem;
-    margin-bottom: 0.75rem;
+    transition: transform 0.3s ease;
   }
 
-  /* Title spacing */
-  .grid > div h2,
-  .grid > div h3 {
+  .product-card:hover .product-image {
+    transform: scale(1.05);
+  }
+
+  .no-image-placeholder {
+    width: 100%;
+    height: 250px;
+    background: linear-gradient(135deg, #E7D7C5, #D4B483);
+    display: flex;
+    align-items: center;
+    justify-content: center;
     color: #5C3D2E;
     font-weight: 600;
-    margin-bottom: 0.5rem;
-    min-height: 2.5rem; /* consistent height */
+    font-size: 1rem;
   }
 
-  /* Description grows to fill space */
-  .grid > div p.text-gray-600,
-  .grid > div p.text-gray-600.mb-2 {
-    flex-grow: 1;
+  .product-content {
+    padding: 1.5rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .product-title {
+    color: #5C3D2E;
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
+  }
+
+  .product-title a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .product-title a:hover {
     color: #A78A7F;
+  }
+
+  .product-price {
+    color: #6E260E;
+    font-size: 1.375rem;
+    font-weight: 700;
     margin-bottom: 0.75rem;
   }
 
-  /* Price and link area */
-  .grid > div .mt-auto {
+  .product-description {
+    color: #A78A7F;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+    flex: 1;
+  }
+
+  .add-to-cart-section {
     margin-top: auto;
   }
 
-  .grid > div .text-lg {
-    color: #6E260E;
-    font-weight: 700;
+  .cart-form {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
   }
 
-  .grid > div a.text-sm {
-    color: #A78A7F;
-    transition: color 0.2s;
-  }
-  .grid > div a.text-sm:hover {
+  .quantity-input {
+    width: 60px;
+    padding: 0.5rem;
+    border: 2px solid #E7D7C5;
+    border-radius: 0.375rem;
+    text-align: center;
+    font-weight: 600;
     color: #5C3D2E;
+    transition: all 0.3s ease;
   }
 
-  /* Add to Cart form controls */
-  .grid > div .flex.items-center.space-x-2 input[type="number"] {
-    border: 1px solid #D4B483;
-    border-radius: 0.25rem;
-  }
-  .grid > div .flex.items-center.space-x-2 input[type="number"]:focus {
+  .quantity-input:focus {
     outline: none;
-    box-shadow: 0 0 0 2px rgba(92, 61, 46, 0.2);
+    border-color: #A78A7F;
+    box-shadow: 0 0 0 3px rgba(167, 138, 127, 0.1);
   }
-  .grid > div .flex.items-center.space-x-2 input[type="submit"] {
-    background-color: #6E260E;
+
+  .add-to-cart-btn {
+    background: linear-gradient(135deg, #6E260E, #5C3D2E);
     color: white;
-    transition: background-color 0.2s;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    border: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    flex: 1;
   }
-  .grid > div .flex.items-center.space-x-2 input[type="submit"]:hover {
+
+  .add-to-cart-btn:hover {
+    background: linear-gradient(135deg, #5C3D2E, #4A2F20);
+    transform: scale(1.05);
+  }
+
+  .pagination-section {
+    margin-top: 3rem;
+    display: flex;
+    justify-content: center;
+  }
+
+  .pagination {
+    background: linear-gradient(135deg, #E7D7C5, #D4B483);
+    padding: 1rem 2rem;
+    border-radius: 1rem;
+    border: 2px solid #A78A7F;
+  }
+
+  .pagination a,
+  .pagination span {
+    color: #5C3D2E;
+    padding: 0.5rem 1rem;
+    margin: 0 0.25rem;
+    border-radius: 0.375rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  .pagination a:hover {
     background-color: #5C3D2E;
+    color: white;
+  }
+
+  .pagination .current {
+    background-color: #5C3D2E;
+    color: white;
+    font-weight: 600;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: linear-gradient(135deg, #F8F4E9, #E7D7C5);
+    border-radius: 1rem;
+    border: 2px solid #D4B483;
+    margin-top: 2rem;
+  }
+
+  .empty-state svg {
+    width: 80px;
+    height: 80px;
+    color: #D4B483;
+    margin-bottom: 1.5rem;
+  }
+
+  .empty-state h3 {
+    color: #5C3D2E;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  .empty-state p {
+    color: #A78A7F;
+    font-size: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .empty-state-btn {
+    background: linear-gradient(135deg, #5C3D2E, #4A2F20);
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    font-weight: 600;
+    display: inline-block;
+    transition: all 0.3s ease;
+  }
+
+  .empty-state-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(92, 61, 46, 0.3);
+    color: white;
+    text-decoration: none;
   }
 </style>
 
-<h1>Products</h1>
-
-<%= form_with url: products_path, method: :get, local: true, class: "mb-4 flex space-x-2" do |f| %>
-  <%= f.text_field    :q,            value: params[:q],            placeholder: "Search by name", class: "border p-2 rounded" %>
-  <%= f.select        :category_id, options_for_select(@categories.pluck(:name, :id), params[:category_id]), include_blank: "All Categories", class: "border p-2 rounded" %>
-  <%= f.submit "Filter", class: "bg-blue-500 text-white px-4 rounded" %>
-<% end %>
-
-<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-  <% @products.each do |product| %>
-    <div>
-      <% if product.has_image? %>
-        <%= image_tag product.image_path, alt: product.name %>
+<div class="products-home-container">
+  <!-- Hero Section -->
+  <div class="page-hero">
+    <h1 class="hero-title">🧁 Fresh Bakery Delights</h1>
+    <p class="hero-subtitle">Discover our handcrafted baked goods made with love and the finest ingredients</p>
+    
+    <!-- Search & Filter Section -->
+    <div class="search-filter-section">
+      <%= form_with url: products_path, method: :get, local: true, class: "filter-form" do |f| %>
+        <%= f.text_field :q, value: params[:q], placeholder: "Search delicious treats...", class: "filter-input" %>
+        <%= f.select :category_id, options_for_select(@categories.pluck(:name, :id), params[:category_id]), 
+                     { include_blank: "All Categories" }, 
+                     { class: "filter-input filter-select" } %>
+        <%= f.submit "🔍 Search", class: "filter-btn" %>
       <% end %>
-      <h2 class="font-bold"><%= link_to product.name, product %></h2>
-      <p class="text-gray-600"><%= number_to_currency(product.price) %></p>
-      <p class="text-gray-600 mb-2"><%= truncate(product.description, length: 80) %></p>
-      <!-- Add to Cart Form -->
-      <%= form_with url: add_to_cart_path(product), method: :post, local: true, class: "mt-4" do |f| %>
-        <div class="flex items-center space-x-2">
-          <%= f.number_field :quantity, value: 1, min: 1, max: 10, class: "w-16 px-2 py-1 text-center focus:ring-2 focus:ring-[#6E260E]" %>
-          <%= f.submit "Add to Cart", class: "bg-[#6E260E] hover:bg-[#5C3D2E] text-white px-4 py-2 rounded font-medium transition duration-200 flex-1" %>
+    </div>
+  </div>
+
+  <!-- Products Grid -->
+  <% if @products.any? %>
+    <div class="products-grid">
+      <% @products.each do |product| %>
+        <div class="product-card">
+          <!-- Product Image -->
+          <div class="product-image-container">
+            <% if product.has_image? %>
+              <%= image_tag product.image_path, alt: product.name, class: "product-image" %>
+            <% else %>
+              <div class="no-image-placeholder">
+                🧁 No Image Available
+              </div>
+            <% end %>
+          </div>
+
+          <!-- Product Content -->
+          <div class="product-content">
+            <h2 class="product-title">
+              <%= link_to product.name, product %>
+            </h2>
+            
+            <div class="product-price">
+              <%= number_to_currency(product.price) %>
+            </div>
+            
+            <p class="product-description">
+              <%= truncate(product.description, length: 100) %>
+            </p>
+
+            <!-- Add to Cart Section -->
+            <div class="add-to-cart-section">
+              <%= form_with url: add_to_cart_path(product), method: :post, local: true, class: "cart-form" do |f| %>
+                <%= f.number_field :quantity, value: 1, min: 1, max: 10, class: "quantity-input" %>
+                <%= f.submit "🛒 Add to Cart", class: "add-to-cart-btn" %>
+              <% end %>
+            </div>
+          </div>
         </div>
       <% end %>
     </div>
-  <% end %>
-</div>
 
-<div class="mt-6">
-  <%= paginate @products %>
+    <!-- Pagination -->
+    <div class="pagination-section">
+      <div class="pagination">
+        <%= paginate @products %>
+      </div>
+    </div>
+  <% else %>
+    <!-- Empty State -->
+    <div class="empty-state">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+      </svg>
+      <h3>No Products Found</h3>
+      <p>We couldn't find any products matching your search criteria. Try adjusting your filters or browse our full collection.</p>
+      <%= link_to "Browse All Products", products_path, class: "empty-state-btn" %>
+    </div>
+  <% end %>
 </div>
