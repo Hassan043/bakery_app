@@ -24,7 +24,7 @@
           <%= link_to "Cart (#{session[:cart]&.size || 0})", cart_path, class: "hover:text-[#6E260E]" %>
           <% if user_signed_in? %>
             <%= link_to current_user.email, customer_dashboard_path, class: "hover:text-[#6E260E]" %>
-            <%= link_to "Logout", destroy_user_session_path, method: :delete, class: "hover:text-red-500" %>
+            <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "hover:text-red-500 inline-block" %>
           <% else %>
             <%= link_to "Login / Sign Up", new_user_session_path, class: "hover:text-[#6E260E]" %>
           <% end %>
