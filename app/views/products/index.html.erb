@@ -13,21 +13,13 @@
       <% end %>
       <h2 class="font-bold"><%= link_to product.name, product %></h2>
       <p class="text-gray-600"><%= number_to_currency(product.price) %></p>
-      <p class="text-sm"><%= truncate(product.description, length: 80) %></p>
-        <!-- Add to Cart Form -->
+      <p class="text-sm"><%= truncate(product.description, length: 80) %></p>      <!-- Add to Cart Form -->
       <%= form_with url: add_to_cart_path(product), method: :post, local: true, class: "mt-4" do |f| %>
         <div class="flex items-center space-x-2">
           <%= f.number_field :quantity, value: 1, min: 1, max: 10, class: "w-16 px-2 py-1 border border-gray-300 rounded text-center focus:ring-2 focus:ring-pink-500" %>
           <%= f.submit "Add to Cart", class: "bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded font-medium transition duration-200 flex-1" %>
         </div>
       <% end %>
-      
-      <!-- Quick Add Options -->
-      <div class="mt-2 flex space-x-1">
-        <%= link_to "+1", add_to_cart_path(product, quantity: 1), method: :post, class: "bg-gray-200 hover:bg-gray-300 text-gray-700 px-2 py-1 rounded text-xs transition duration-200" %>
-        <%= link_to "+5", add_to_cart_path(product, quantity: 5), method: :post, class: "bg-gray-200 hover:bg-gray-300 text-gray-700 px-2 py-1 rounded text-xs transition duration-200" %>
-        <%= link_to "+10", add_to_cart_path(product, quantity: 10), method: :post, class: "bg-gray-200 hover:bg-gray-300 text-gray-700 px-2 py-1 rounded text-xs transition duration-200" %>
-      </div>
     </div>
   <% end %>
 </div>
@@ -62,15 +54,6 @@
             <%= f.submit "Add to Cart", class: "bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded font-medium transition duration-200 flex-1" %>
           </div>
         <% end %>
-        
-        <!-- Quick Add Options -->
-        <div class="flex justify-between items-center">
-          <div class="flex space-x-1">
-            <%= link_to "+1", add_to_cart_path(product, quantity: 1), method: :post, class: "bg-gray-200 hover:bg-gray-300 text-gray-700 px-2 py-1 rounded text-xs transition duration-200" %>
-            <%= link_to "+5", add_to_cart_path(product, quantity: 5), method: :post, class: "bg-gray-200 hover:bg-gray-300 text-gray-700 px-2 py-1 rounded text-xs transition duration-200" %>
-          </div>
-          <%= link_to "View Details", product, class: "text-sm text-gray-500 hover:text-pink-600" %>
-        </div>
       </div>
     </div>
   <% end %>
