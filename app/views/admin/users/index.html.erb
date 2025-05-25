@@ -1,44 +1,123 @@
-<!-- filepath: c:\Users\Haseeb Arif\Desktop\Ruby project\bakery_app\app\views\admin\users\index.html.erb -->
-<div class="flex justify-between items-center mb-6">
-  <h1 class="text-2xl font-bold">All Users</h1>
-  <span class="text-gray-600">Total Users: <%= @users.count %></span>
-</div>
+<!-- filepath: app/views/admin/users/index.html.erb -->
 
-<div class="bg-white shadow-md rounded my-6">
-  <table class="min-w-full table-auto">
-    <thead>
-      <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-        <th class="py-3 px-6 text-left">ID</th>
-        <th class="py-3 px-6 text-left">Name</th>
-        <th class="py-3 px-6 text-left">Email</th>
-        <th class="py-3 px-6 text-left">Role</th>
-        <th class="py-3 px-6 text-left">Joined</th>
-      </tr>
-    </thead>
-    <tbody class="text-gray-600 text-sm font-light">
-      <% @users.each do |user| %>
-        <tr class="border-b border-gray-200 hover:bg-gray-100">
-          <td class="py-3 px-6 text-left">
-            <%= user.id %>
-          </td>
-          <td class="py-3 px-6 text-left">
-            <%= user.name.present? ? user.name : "Not provided" %>
-          </td>
-          <td class="py-3 px-6 text-left">
-            <%= user.email %>
-          </td>
-          <td class="py-3 px-6 text-left">
-            <span class="<%= user.admin? ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800' %> text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">
-              <%= user.role&.capitalize || 'Customer' %>
-            </span>
-          </td>
-          <td class="py-3 px-6 text-left">
-            <%= user.created_at.strftime('%B %d, %Y') %>
-          </td>
+<style>
+  /* Admin Users Index – Brown Theme Styling */
+  .admin-users-container {
+    background-color: #F8F4E9; /* light cream */
+    padding: 2rem;
+    border-radius: 0.5rem;
+  }
+
+  .admin-users-header h1 {
+    color: #5C3D2E; /* dark brown */
+  }
+  .admin-users-header .total-count {
+    color: #A78A7F; /* medium brown */
+  }
+
+  .admin-users-table {
+    background-color: #FFFFFF;
+    border: 1px solid #D4B483; /* light brown border */
+    border-radius: 0.5rem;
+    overflow: hidden;
+  }
+
+  .admin-users-table table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .admin-users-table thead tr {
+    background-color: #E7D7C5; /* medium cream */
+  }
+
+  .admin-users-table thead th {
+    color: #5C3D2E;
+    text-transform: uppercase;
+    font-size: 0.875rem;
+    padding: 0.75rem 1rem;
+    text-align: left;
+  }
+
+  .admin-users-table tbody tr {
+    border-bottom: 1px solid #D4B483;
+    transition: background-color 0.2s;
+  }
+
+  .admin-users-table tbody tr:hover {
+    background-color: #F0E8DE;
+  }
+
+  .admin-users-table tbody td {
+    color: #5C3D2E;
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+  }
+
+  .role-badge-admin {
+    background-color: #5C3D2E;
+    color: #F8F4E9;
+  }
+
+  .role-badge-customer {
+    background-color: #D4B483;
+    color: #5C3D2E;
+  }
+
+  .back-link {
+    display: inline-block;
+    margin-top: 1rem;
+    color: #5C3D2E;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+
+  .back-link:hover {
+    color: #3A2D1E;
+  }
+</style>
+
+<div class="admin-users-container">
+  <div class="admin-users-header flex justify-between items-center mb-6">
+    <h1 class="text-2xl font-bold">All Users</h1>
+    <span class="total-count text-gray-600">Total Users: <%= @users.count %></span>
+  </div>
+
+  <div class="admin-users-table shadow-md rounded my-6">
+    <table class="min-w-full table-auto">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Role</th>
+          <th>Joined</th>
         </tr>
-      <% end %>
-    </tbody>
-  </table>
-</div>
+      </thead>
+      <tbody>
+        <% @users.each do |user| %>
+          <tr>
+            <td><%= user.id %></td>
+            <td><%= user.name.presence || "Not provided" %></td>
+            <td><%= user.email %></td>
+            <td>
+              <% if user.admin? %>
+                <span class="role-badge-admin text-xs font-semibold px-2.5 py-0.5 rounded">
+                  Admin
+                </span>
+              <% else %>
+                <span class="role-badge-customer text-xs font-semibold px-2.5 py-0.5 rounded">
+                  Customer
+                </span>
+              <% end %>
+            </td>
+            <td><%= user.created_at.strftime("%B %d, %Y") %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
 
-<%= link_to 'Back to Dashboard', admin_root_path, class: "text-blue-500 hover:text-blue-700 mt-4 inline-block" %>
+  <%= link_to 'Back to Dashboard', admin_root_path, class: "back-link" %>
+</div>

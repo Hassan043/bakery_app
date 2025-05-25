@@ -1,37 +1,32 @@
-<div class="min-h-screen flex items-center justify-center bg-gray-100 px-4">
-  <div class="max-w-md w-full bg-white p-6 rounded shadow">
-    <h2 class="text-2xl font-bold text-center text-pink-600 mb-6">Login to Your Bakery Account</h2>
+<div class="min-h-screen flex items-center justify-center bg-bakery-light px-4">
+  <div class="max-w-md w-full bg-white p-6 rounded shadow-lg border border-bakery">
+    <h2 class="text-2xl font-bold text-center text-bakery-dark mb-6">Login to Your Bakery Account</h2>
 
-    <%= form_with(scope: resource_name, url: session_path(resource_name), class: "space-y-4") do |f| %>
-      <div>
-        <%= f.label :email, class: "block font-medium" %>
+    <%= form_with(scope: resource_name, url: session_path(resource_name), class: "space-y-4") do |f| %>      <div>
+        <%= f.label :email, class: "block font-medium text-bakery-dark" %>
         <%= f.email_field :email, autofocus: true, required: true,
-            class: "w-full border rounded px-3 py-2 mt-1" %>
+            class: "w-full border border-bakery rounded px-3 py-2 mt-1 focus:ring-2 focus:ring-bakery-dark focus:border-transparent" %>
       </div>
 
       <div>
-        <%= f.label :password, class: "block font-medium" %>
+        <%= f.label :password, class: "block font-medium text-bakery-dark" %>
         <%= f.password_field :password, required: true,
-            class: "w-full border rounded px-3 py-2 mt-1" %>
-      </div>
-
-      <div class="flex justify-between items-center">
+            class: "w-full border border-bakery rounded px-3 py-2 mt-1 focus:ring-2 focus:ring-bakery-dark focus:border-transparent" %>
+      </div>      <div class="flex justify-between items-center">
         <div>
           <%= f.check_box :remember_me %>
-          <%= f.label :remember_me, class: "text-sm" %>
+          <%= f.label :remember_me, class: "text-sm text-bakery-dark" %>
         </div>
         <%= link_to "Forgot password?", new_password_path(resource_name),
-            class: "text-sm text-pink-600 hover:underline" %>
+            class: "text-sm text-bakery-dark hover:text-bakery-medium hover:underline" %>
       </div>
 
       <div>
-        <%= f.submit "Log In", class: "w-full bg-pink-500 hover:bg-pink-600 text-white py-2 rounded" %>
+        <%= f.submit "Log In", class: "w-full bg-bakery-dark hover:bg-bakery-dark hover:opacity-90 text-white py-2 rounded font-medium transition duration-200" %>
       </div>
-    <% end %>
-
-    <p class="text-center text-sm mt-4">
+    <% end %>    <p class="text-center text-sm mt-4 text-bakery-dark">
       Don't have an account?
-      <%= link_to "Sign up", new_user_registration_path, class: "text-pink-600 hover:underline" %>
+      <%= link_to "Sign up", new_user_registration_path, class: "text-bakery-dark hover:text-bakery-medium hover:underline font-medium" %>
     </p>
   </div>
 </div>

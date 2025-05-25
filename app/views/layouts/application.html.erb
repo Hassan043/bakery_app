@@ -1,43 +1,67 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>BakeryApp</title>    <%= csrf_meta_tags %>
+    <title>BakeryApp</title>
+    <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
+    <style>
+      /* Custom brown palette */
+      .bg-bakery-light { background-color: #F8F4E9; }
+      .bg-bakery-medium { background-color: #E7D7C5; }
+      .bg-bakery-dark { background-color: #5C3D2E; }
+      .text-bakery-dark { color: #5C3D2E; }
+      .text-bakery-medium { color: #A78A7F; }
+      .border-bakery { border-color: #D4B483; }
+      .hover\:text-bakery-dark:hover { color: #5C3D2E; }
+      .hover\:bg-bakery-dark:hover { background-color: #5C3D2E; }
+    </style>
   </head>
 
-  <body class="min-h-screen bg-gray-50 text-gray-800">
-    <header style="background-color: #C2B280;" class="shadow-md">
-      <div class="container mx-auto px-8 py-6 flex justify-between items-center">      
-        <h1 class="text-2xl font-bold text-[#6E260E] flex items-center gap-2">
-          <%= link_to root_path, class: "flex items-center gap-2" do %>
+  <body class="min-h-screen bg-bakery-light text-bakery-dark">
+    <header class="bg-bakery-medium shadow-md sticky top-0 z-50">
+      <div class="container mx-auto px-8 py-4 flex justify-between items-center">      
+        <h1 class="text-2xl font-bold text-bakery-dark flex items-center gap-2">
+          <%= link_to root_path, class: "flex items-center gap-2 hover:opacity-80 transition duration-200" do %>
             <%= image_tag "/logo.png", alt: "Logo", class: "h-8 w-8" %>
             BakeryApp
           <% end %>
-        </h1>        <nav class="space-x-4">
+        </h1>
+
+        <nav class="flex items-center space-x-4">
           <% if user_signed_in? && current_user.admin? %>
             <!-- Admin Navigation -->
-            <%= link_to "Admin Dashboard", admin_root_path, class: "hover:text-[#6E260E] font-bold" %>
+            <%= link_to "Admin Dashboard", admin_root_path, class: "hover:text-bakery-dark font-bold px-3 py-1 rounded-lg bg-white bg-opacity-70" %>
           <% else %>
             <!-- Regular User Navigation -->
-            <%= link_to "Products", products_path, class: "hover:text-[#6E260E]" %>
-            <%= link_to "Categories", categories_path, class: "hover:text-[#6E260E]" %>
-            <%= link_to "Cart (#{session[:cart]&.size || 0})", cart_path, class: "hover:text-[#6E260E]" %>
+            <%= link_to "Products", products_path, class: "hover:text-bakery-dark font-medium transition duration-200" %>
+            <%= link_to "Categories", categories_path, class: "hover:text-bakery-dark font-medium transition duration-200" %>
+            <%= link_to cart_path, class: "relative group" do %>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 group-hover:text-bakery-dark transition duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+              </svg>
+              <span class="absolute -top-2 -right-2 bg-bakery-dark text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                <%= session[:cart]&.size || 0 %>
+              </span>
+            <% end %>
           <% end %>
           
           <% if user_signed_in? %>
-            <% if current_user.admin? %>
-              <!-- Admin user display -->
-              <span class="text-[#6E260E] font-semibold">Admin</span>
-            <% elsif current_user.name.present? %>
-              <%= link_to current_user.name, customer_dashboard_path, class: "hover:text-[#6E260E]" %>
-            <% else %>
-              <%= link_to current_user.email, customer_dashboard_path, class: "hover:text-[#6E260E]" %>
-            <% end %>
-            <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "hover:text-red-500 inline-block" %>
+            <div class="flex items-center gap-2">
+              <% if current_user.admin? %>
+                <span class="text-bakery-dark font-semibold bg-white bg-opacity-70 px-3 py-1 rounded-lg">Admin</span>
+              <% elsif current_user.name.present? %>
+                <%= link_to current_user.name, customer_dashboard_path, class: "hover:text-bakery-dark font-medium transition duration-200" %>
+              <% else %>
+                <%= link_to current_user.email, customer_dashboard_path, class: "hover:text-bakery-dark font-medium transition duration-200" %>
+              <% end %>
+              <%= button_to "Logout", destroy_user_session_path, method: :delete, 
+                  class: "hover:text-red-500 font-medium transition duration-200" %>
+            </div>
           <% else %>
-            <%= link_to "Login / Sign Up", new_user_session_path, class: "hover:text-[#6E260E]" %>
+            <%= link_to "Login", new_user_session_path, 
+                class: "bg-bakery-dark hover:bg-opacity-90 text-white px-4 py-2 rounded-lg font-medium transition duration-200" %>
           <% end %>
         </nav>
       </div>
@@ -45,8 +69,8 @@
 
     <main class="container mx-auto px-4 py-8">
       <% flash.each do |type, msg| %>
-        <div class="mb-4 px-4 py-2 rounded 
-                    <%= type == "notice" ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800" %>">
+        <div class="mb-6 px-4 py-3 rounded-lg 
+                    <%= type == 'notice' ? 'bg-green-100 text-green-800 border border-green-200' : 'bg-red-100 text-red-800 border border-red-200' %>">
           <%= msg %>
         </div>
       <% end %>
@@ -54,9 +78,9 @@
       <%= yield %>
     </main>
 
-    <footer class="bg-white border-t mt-12">
-      <div class="container mx-auto px-4 py-6 text-center text-gray-500">
-        © <%= Time.current.year %> BakeryApp — Made with 🧁
+    <footer class="bg-bakery-medium border-t border-bakery mt-12">
+      <div class="container mx-auto px-4 py-6 text-center text-bakery-dark">
+        © <%= Time.current.year %> BakeryApp — Made with ruby
       </div>
     </footer>
   </body>

@@ -1,25 +1,62 @@
-<%- if controller_name != 'sessions' %>
-  <%= link_to "Log in", new_session_path(resource_name) %><br />
-<% end %>
+<style>
+  /* Styled Devise Shared Links - Brown Theme */
+  .devise-links {
+    max-width: 28rem; /* matches Tailwind’s max-w-md */
+    margin: 1rem auto;
+    padding: 1rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
 
-<%- if devise_mapping.registerable? && controller_name != 'registrations' %>
-  <%= link_to "Sign up", new_registration_path(resource_name) %><br />
-<% end %>
+  .devise-links a,
+  .devise-links form {
+    color: #5C3D2E; /* dark brown */
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
 
-<%- if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>
-  <%= link_to "Forgot your password?", new_password_path(resource_name) %><br />
-<% end %>
+  .devise-links a:hover,
+  .devise-links button:hover {
+    color: #3A2D1E; /* darker on hover */
+  }
 
-<%- if devise_mapping.confirmable? && controller_name != 'confirmations' %>
-  <%= link_to "Didn't receive confirmation instructions?", new_confirmation_path(resource_name) %><br />
-<% end %>
+  .devise-links button {
+    background: none;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+  }
+</style>
 
-<%- if devise_mapping.lockable? && resource_class.unlock_strategy_enabled?(:email) && controller_name != 'unlocks' %>
-  <%= link_to "Didn't receive unlock instructions?", new_unlock_path(resource_name) %><br />
-<% end %>
-
-<%- if devise_mapping.omniauthable? %>
-  <%- resource_class.omniauth_providers.each do |provider| %>
-    <%= button_to "Sign in with #{OmniAuth::Utils.camelize(provider)}", omniauth_authorize_path(resource_name, provider), data: { turbo: false } %><br />
+<div class="devise-links">
+  <% if controller_name != 'sessions' %>
+    <%= link_to "Log in", new_session_path(resource_name) %>
   <% end %>
-<% end %>
+
+  <% if devise_mapping.registerable? && controller_name != 'registrations' %>
+    <%= link_to "Sign up", new_registration_path(resource_name) %>
+  <% end %>
+
+  <% if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>
+    <%= link_to "Forgot your password?", new_password_path(resource_name) %>
+  <% end %>
+
+  <% if devise_mapping.confirmable? && controller_name != 'confirmations' %>
+    <%= link_to "Didn't receive confirmation instructions?", new_confirmation_path(resource_name) %>
+  <% end %>
+
+  <% if devise_mapping.lockable? && resource_class.unlock_strategy_enabled?(:email) && controller_name != 'unlocks' %>
+    <%= link_to "Didn't receive unlock instructions?", new_unlock_path(resource_name) %>
+  <% end %>
+
+  <% if devise_mapping.omniauthable? %>
+    <% resource_class.omniauth_providers.each do |provider| %>
+      <%= button_to "Sign in with #{OmniAuth::Utils.camelize(provider)}",
+                    omniauth_authorize_path(resource_name, provider),
+                    data: { turbo: false } %>
+    <% end %>
+  <% end %>
+</div>

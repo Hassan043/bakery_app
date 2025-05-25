@@ -1,16 +1,74 @@
-<h2>Resend confirmation instructions</h2>
+<style>
+  /* Styling for resend confirmation form */
+  h2.text-2xl {
+    color: #5C3D2E;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+  }
 
-<%= form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f| %>
+  .max-w-md label {
+    display: block;
+    color: #5C3D2E;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+  }
+
+  .max-w-md input[type="email"] {
+    width: 100%;
+    padding: 0.5rem 1rem;
+    border: 1px solid #D4B483;
+    border-radius: 0.5rem;
+    color: #5C3D2E;
+  }
+
+  .max-w-md input[type="email"]:focus {
+    outline: none;
+    border-color: #5C3D2E;
+    box-shadow: 0 0 0 2px rgba(92, 61, 46, 0.25);
+  }
+
+  .actions input[type="submit"] {
+    width: 100%;
+    background-color: #5C3D2E;
+    color: white;
+    font-weight: bold;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+  }
+
+  .actions input[type="submit"]:hover {
+    background-color: #3A2D1E;
+  }
+
+  .max-w-md.mt-4 {
+    margin-top: 1rem;
+  }
+</style>
+
+<h2 class="text-2xl font-bold text-[#5C3D2E] mb-6">Resend confirmation instructions</h2>
+
+<%= form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post, class: "max-w-md mx-auto" }) do |f| %>
   <%= render "devise/shared/error_messages", resource: resource %>
 
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email", value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email) %>
+  <div class="mb-4">
+    <%= f.label :email, class: "block text-[#5C3D2E] font-medium mb-2" %>
+    <%= f.email_field :email, 
+          autofocus: true, 
+          autocomplete: "email", 
+          value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email),
+          class: "w-full px-4 py-2 rounded-lg border border-[#D4B483] focus:outline-none focus:ring-2 focus:ring-[#5C3D2E] focus:border-transparent" %>
   </div>
 
-  <div class="actions">
-    <%= f.submit "Resend confirmation instructions" %>
+  <div class="actions mt-6">
+    <%= f.submit "Resend confirmation instructions", 
+          class: "w-full bg-[#5C3D2E] hover:bg-[#3A2D1E] text-white font-bold py-2 px-4 rounded-lg transition duration-200 cursor-pointer" %>
   </div>
 <% end %>
 
-<%= render "devise/shared/links" %>
+<div class="max-w-md mx-auto mt-4">
+  <%= render "devise/shared/links" %>
+</div>

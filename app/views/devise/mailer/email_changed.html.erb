@@ -1,7 +1,47 @@
-<p>Hello <%= @email %>!</p>
+<style>
+  /* Email Change Notification Styling */
+  .email-container {
+    font-family: sans-serif;
+    color: #5C3D2E;
+    background-color: #F8F4E9;
+    padding: 2rem;
+    border: 1px solid #D4B483;
+    border-radius: 0.5rem;
+    max-width: 28rem;
+    margin: 0 auto;
+  }
 
-<% if @resource.try(:unconfirmed_email?) %>
-  <p>We're contacting you to notify you that your email is being changed to <%= @resource.unconfirmed_email %>.</p>
-<% else %>
-  <p>We're contacting you to notify you that your email has been changed to <%= @resource.email %>.</p>
-<% end %>
+  .email-container p {
+    margin-bottom: 1rem;
+    line-height: 1.5;
+  }
+
+  .email-container p.greeting {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+  }
+
+  .email-container p.notice {
+    background-color: #E7D7C5;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid #D4B483;
+  }
+</style>
+
+<div class="email-container">
+  <p class="greeting">Hello <%= @email %>!</p>
+
+  <% if @resource.try(:unconfirmed_email?) %>
+    <p class="notice">
+      We’re contacting you to notify you that your email is being changed to 
+      <strong><%= @resource.unconfirmed_email %></strong>.
+    </p>
+  <% else %>
+    <p class="notice">
+      We’re contacting you to notify you that your email has been changed to 
+      <strong><%= @resource.email %></strong>.
+    </p>
+  <% end %>
+</div>

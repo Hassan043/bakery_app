@@ -1,5 +1,51 @@
-<p>Welcome <%= @email %>!</p>
+<style>
+  /* Email Confirmation Template Styling */
+  .email-container {
+    font-family: sans-serif;
+    color: #5C3D2E;
+    background-color: #F8F4E9;
+    padding: 2rem;
+    border: 1px solid #D4B483;
+    border-radius: 0.5rem;
+    max-width: 28rem;
+    margin: 0 auto;
+  }
 
-<p>You can confirm your account email through the link below:</p>
+  .email-container h1 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #5C3D2E;
+  }
 
-<p><%= link_to 'Confirm my account', confirmation_url(@resource, confirmation_token: @token) %></p>
+  .email-container p {
+    margin-bottom: 1rem;
+    line-height: 1.5;
+  }
+
+  .email-container a.confirm-link {
+    display: inline-block;
+    background-color: #5C3D2E;
+    color: #FFFFFF !important;
+    font-weight: bold;
+    padding: 0.5rem 1rem;
+    text-decoration: none;
+    border-radius: 0.5rem;
+    transition: background-color 0.2s ease-in-out;
+  }
+
+  .email-container a.confirm-link:hover {
+    background-color: #3A2D1E;
+  }
+</style>
+
+<div class="email-container">
+  <h1>Welcome, <%= @email %>!</h1>
+
+  <p>You can confirm your account email through the link below:</p>
+
+  <p>
+    <%= link_to 'Confirm my account',
+                confirmation_url(@resource, confirmation_token: @token),
+                class: 'confirm-link' %>
+  </p>
+</div>

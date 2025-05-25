@@ -1,40 +1,37 @@
-<div class="min-h-screen flex items-center justify-center bg-gray-100">
-  <div class="max-w-md mx-auto mt-10 bg-white p-6 rounded shadow">
-    <h2 class="text-2xl font-bold text-center text-pink-600 mb-6">Create a Bakery Account</h2>
+<div class="min-h-screen flex items-center justify-center bg-bakery-light">
+  <div class="max-w-md mx-auto mt-10 bg-white p-6 rounded shadow-lg border border-bakery">
+    <h2 class="text-2xl font-bold text-center text-bakery-dark mb-6">Create a Bakery Account</h2>
 
-    <%= form_with(model: resource, url: registration_path(resource_name), class: "space-y-4") do |f| %>
-      <div>
-        <%= f.label :name, class: "block font-medium" %>
+    <%= form_with(model: resource, url: registration_path(resource_name), class: "space-y-4") do |f| %>      <div>
+        <%= f.label :name, class: "block font-medium text-bakery-dark" %>
         <%= f.text_field :name, autofocus: true, required: true,
-            class: "w-full border rounded px-3 py-2 mt-1" %>
+            class: "w-full border border-bakery rounded px-3 py-2 mt-1 focus:ring-2 focus:ring-bakery-dark focus:border-transparent" %>
       </div>
 
       <div>
-        <%= f.label :email, class: "block font-medium" %>
+        <%= f.label :email, class: "block font-medium text-bakery-dark" %>
         <%= f.email_field :email, required: true,
-            class: "w-full border rounded px-3 py-2 mt-1" %>
+            class: "w-full border border-bakery rounded px-3 py-2 mt-1 focus:ring-2 focus:ring-bakery-dark focus:border-transparent" %>
       </div>
 
       <div>
-        <%= f.label :password, class: "block font-medium" %>
+        <%= f.label :password, class: "block font-medium text-bakery-dark" %>
         <%= f.password_field :password, autocomplete: "new-password", required: true,
-            class: "w-full border rounded px-3 py-2 mt-1" %>
+            class: "w-full border border-bakery rounded px-3 py-2 mt-1 focus:ring-2 focus:ring-bakery-dark focus:border-transparent" %>
       </div>
 
       <div>
-        <%= f.label :password_confirmation, class: "block font-medium" %>
+        <%= f.label :password_confirmation, class: "block font-medium text-bakery-dark" %>
         <%= f.password_field :password_confirmation, required: true,
-            class: "w-full border rounded px-3 py-2 mt-1" %>
-      </div>
-
-      <div>
-        <%= f.submit "Sign Up", class: "w-full bg-pink-500 hover:bg-pink-600 text-white py-2 rounded" %>
+            class: "w-full border border-bakery rounded px-3 py-2 mt-1 focus:ring-2 focus:ring-bakery-dark focus:border-transparent" %>
+      </div>      <div>
+        <%= f.submit "Sign Up", class: "w-full bg-bakery-dark hover:bg-bakery-dark hover:opacity-90 text-white py-2 rounded font-medium transition duration-200" %>
       </div>
     <% end %>
 
-    <p class="text-center text-sm mt-4">
+    <p class="text-center text-sm mt-4 text-bakery-dark">
       Already have an account?
-      <%= link_to "Login", new_user_session_path, class: "text-pink-600 hover:underline" %>
+      <%= link_to "Login", new_user_session_path, class: "text-bakery-dark hover:text-bakery-medium hover:underline font-medium" %>
     </p>
   </div>
 </div>

@@ -1,3 +1,72 @@
+<style>
+  /* Password Change Form Styling */
+  h2 {
+    color: #5C3D2E;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+  }
+
+  .field {
+    margin-bottom: 1rem;
+  }
+
+  .field label {
+    display: block;
+    color: #5C3D2E;
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+  }
+
+  .field em {
+    color: #A78A7F;
+    font-size: 0.875rem;
+    display: block;
+    margin-bottom: 0.25rem;
+  }
+
+  .field input[type="password"] {
+    width: 100%;
+    padding: 0.5rem 1rem;
+    border: 1px solid #D4B483;
+    border-radius: 0.5rem;
+    color: #5C3D2E;
+  }
+
+  .field input[type="password"]:focus {
+    outline: none;
+    border-color: #5C3D2E;
+    box-shadow: 0 0 0 2px rgba(92, 61, 46, 0.2);
+  }
+
+  .actions input[type="submit"] {
+    width: 100%;
+    background-color: #5C3D2E;
+    color: white;
+    font-weight: bold;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+
+  .actions input[type="submit"]:hover {
+    background-color: #3A2D1E;
+  }
+
+  /* Shared links container */
+  #shared_links {
+    margin-top: 1.5rem;
+  }
+
+  /* Error messages */
+  #error_explanation {
+    color: #dc2626;
+    margin-bottom: 1rem;
+  }
+</style>
+
 <h2>Change your password</h2>
 
 <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
